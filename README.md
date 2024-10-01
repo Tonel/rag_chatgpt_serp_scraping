@@ -1,4 +1,4 @@
-# Python RAG Chatbot with ChatGPT
+# Python RAG Chatbot with GPT4-o
 
 ## Prerequisites
 
@@ -14,13 +14,13 @@
 Clone the current GitHub repository with:
 
 ```bash
-git clone https://github.com/Tonel/rag_chatgpt_serp_scraping
+git clone https://github.com/Tonel/rag_gpt_serp_scraping
 ```
 
 Enter the project folder:
 
 ```bash
-cd rag_chatgpt_serp_scraping
+cd rag_gpt_serp_scraping
 ```
 
 Create a Python virtual environment and activate it:
