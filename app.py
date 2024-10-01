@@ -112,33 +112,33 @@ def extract_text_from_urls(urls, number_of_words=600):
     return extracted_text_list
 
 
-def get_openai_prompt(question, text_context=[]):
+def get_openai_prompt(request, text_context=[]):
     """
-    Constructs a prompt for the OpenAI model based on a question and optional text context.
+    Constructs a prompt for the OpenAI model based on a request and optional text context.
 
     Parameters:
     ----------
-    question : str
-        The question to be answered by the OpenAI model.
+    request : str
+        The request to be answered by the OpenAI model.
 
     text_context : list of str, optional
-        A list of strings providing context for the question. If not empty, the context
+        A list of strings providing context for the request. If not empty, the context
         will be included in the generated prompt. Defaults to an empty list.
 
     Returns:
     -------
     str
-        A formatted prompt string for the OpenAI model, either containing just the question
+        A formatted prompt string for the OpenAI model, either containing just the request
         or including the context as well.
     """
 
     # default prompt
-    prompt = question
+    prompt = request
 
     # add the context to the prompt, if present
     if len(text_context) != 0:
         context_string = "\n\n--------\n\n".join(text_context)
-        prompt = f"Answer the question using only the context below.\n\nContext:\n{context_string}\n\nQuestion: {question}"
+        prompt = f"Answer the request using only the context below.\n\nContext:\n{context_string}\n\nRequest: {request}"
 
     return prompt
 
@@ -180,7 +180,7 @@ with st.form("prompt_form"):
     # textarea for user to input their Google search query
     google_search_query = st.text_area("Google Search:", None)
     # textarea for user to input their AI prompt
-    question = st.text_area("AI Prompt:", None)
+    request = st.text_area("AI Prompt:", None)
 
     # button to submit the form
     submitted = st.form_submit_button("Send")
@@ -192,12 +192,12 @@ with st.form("prompt_form"):
         # extract the text from the respective HTML pages
         extracted_text_list = extract_text_from_urls(google_serp_urls)
         # generate the AI prompt using the extracted text as context
-        final_prompt = get_openai_prompt(question, extracted_text_list)
+        final_prompt = get_openai_prompt(request, extracted_text_list)
         # interrogate an OpenAI model with the generated prompt
         result = interrogate_openai(final_prompt)
 
     # dropdown containing the generated prompt
-    final_prompt_expander = st.expander("AI Final Prompt:")
+    final_prompt_expander = st.expander("AI Final Prompt")
     final_prompt_expander.write(final_prompt)
 
     # write the result from the OpenAI model
